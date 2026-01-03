@@ -77,9 +77,9 @@ COPY --from=build --chown=nestjs:nodejs /app/dist ./dist
 # Remove write permissions from copied files for security
 RUN chmod -R a-w /app/dist
 
-# Install knex globally for running migrations
+# Install knex for running migrations
 # Skip scripts to prevent arbitrary script execution
-RUN pnpm add -g knex --ignore-scripts
+RUN pnpm add knex --ignore-scripts
 
 # Set working directory for migrations
 WORKDIR /app
