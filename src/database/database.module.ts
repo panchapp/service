@@ -1,5 +1,5 @@
 import { getDatabaseConfig } from '@/config/database/database.config';
-import { KNEX_DATABASE_TOKEN } from '@/database/database.tokens';
+import { KNEX_DATABASE_TOKEN } from '@/database/tokens/database.token';
 import { Global, Inject, Module, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import knex, { Knex } from 'knex';

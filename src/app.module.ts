@@ -5,6 +5,7 @@ import { DatabaseModule } from '@/database/database.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { LoggerModule } from 'nestjs-pino';
       useFactory: (configService: ConfigService) => getLoggingConfig(configService),
     }),
     DatabaseModule,
+    UsersModule,
   ],
   controllers: [AppController],
 })
