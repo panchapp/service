@@ -51,7 +51,7 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 COPY . .
 
 # Build the application
-RUN pnpm run build:all
+RUN pnpm run build
 
 # Production stage
 FROM node:20-alpine AS production

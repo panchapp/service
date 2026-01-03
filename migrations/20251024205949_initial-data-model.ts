@@ -114,10 +114,7 @@ export async function up(knex: Knex): Promise<void> {
       table.primary(['user_id', 'permission_id']);
     });
   } catch (error) {
-    console.error(
-      'Error during 20251024205949_initial-data-model migration up:',
-      error,
-    );
+    console.error('Error during 20251024205949_initial-data-model migration up:', error);
     throw error;
   }
 }
