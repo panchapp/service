@@ -17,6 +17,5 @@ import { LoggerModule } from 'nestjs-pino';
     DatabaseModule,
   ],
   controllers: [AppController],
-  providers: [],
 })
 export class AppModule {}

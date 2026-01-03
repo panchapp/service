@@ -1,4 +1,6 @@
 import { AppModule } from '@/app.module';
+import { CustomExceptionFilter } from '@/common/filters/custom-exception.filter';
+import { CustomValidationPipe } from '@/common/pipes/custom-validation.pipe';
 import { VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -8,9 +10,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
+  const logger = app.get(Logger);
 
   // Logger Configuration
-  const logger = app.get(Logger);
   app.useLogger(logger);
   app.flushLogs();
 
@@ -23,6 +25,12 @@ async function bootstrap() {
     defaultVersion: '1',
     prefix: 'api/v',
   });
+
+  // Pipes configuration
+  app.useGlobalPipes(new CustomValidationPipe());
+
+  // Filters configuration
+  app.useGlobalFilters(new CustomExceptionFilter(logger));
 
   // Start the application
   const port = app.get(ConfigService).get<number>('app.port')!;
