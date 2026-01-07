@@ -89,9 +89,13 @@ export class CustomException extends Error {
     });
   }
 
-  static from(cause: unknown): CustomException {
+  static fromOrThrow(cause: unknown, exception?: CustomException): CustomException {
     if (cause instanceof CustomException) {
       return cause;
+    }
+
+    if (exception) {
+      return exception;
     }
 
     const customException = CustomException.internalServerError(

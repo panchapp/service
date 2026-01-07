@@ -1,9 +1,9 @@
 import { PaginatedEntity } from '@/common/entities/paginated.entity';
 import { isEmptyObject } from '@/common/utils/object-utils';
-import { handlePgDatabaseError } from '@/database/error.handler.util';
 import { UserDbModel } from '@/database/models/user-db.model';
 import { KNEX_DATABASE_TOKEN } from '@/database/tokens/database.token';
 import { USERS_TABLE_TOKEN } from '@/database/tokens/users.token';
+import { handlePgDatabaseError } from '@/database/utils/error-handler.util';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { UsersRepository } from '@/users/domain/repositories/users.repository';
 import { UserCreationValueObject } from '@/users/domain/value-objects/user-creation.value-object';
@@ -86,6 +86,18 @@ export class KnexUsersRepository implements UsersRepository {
       return foundDbUser ? UserPersistenceMapper.toEntity(foundDbUser) : null;
     } catch (error) {
       throw handlePgDatabaseError(error, 'Error finding user by email');
+    }
+  }
+
+  async findByGoogleId(googleId: string): Promise<UserEntity | null> {
+    try {
+      const foundDbUser = await this.db<UserDbModel>(this.tableName)
+        .where({ google_id: googleId })
+        .first();
+
+      return foundDbUser ? UserPersistenceMapper.toEntity(foundDbUser) : null;
+    } catch (error) {
+      throw handlePgDatabaseError(error, 'Error finding user by google id');
     }
   }
 

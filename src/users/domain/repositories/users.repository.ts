@@ -8,6 +8,7 @@ export interface UsersRepository {
   findAll(valueObject: UserFindAllValueObject): Promise<PaginatedEntity<UserEntity>>;
   findById(id: string): Promise<UserEntity | null>;
   findByEmail(email: string): Promise<UserEntity | null>;
+  findByGoogleId(googleId: string): Promise<UserEntity | null>;
   create(valueObject: UserCreationValueObject): Promise<UserEntity | null>;
   update(id: string, valueObject: UserUpdateValueObject): Promise<UserEntity | null>;
   delete(id: string): Promise<UserEntity | null>;

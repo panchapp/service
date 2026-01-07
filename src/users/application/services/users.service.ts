@@ -22,7 +22,7 @@ export class UsersService {
       const foundUsers = await this.usersRepository.findAll(valueObject);
       return foundUsers;
     } catch (error) {
-      throw CustomException.from(error);
+      throw CustomException.fromOrThrow(error);
     }
   }
 
@@ -34,7 +34,7 @@ export class UsersService {
       }
       return foundUser;
     } catch (error) {
-      throw CustomException.from(error);
+      throw CustomException.fromOrThrow(error);
     }
   }
 
@@ -46,7 +46,15 @@ export class UsersService {
       }
       return foundUser;
     } catch (error) {
-      throw CustomException.from(error);
+      throw CustomException.fromOrThrow(error);
+    }
+  }
+
+  async getByGoogleId(googleId: string): Promise<UserEntity | null> {
+    try {
+      return await this.usersRepository.findByGoogleId(googleId);
+    } catch (error) {
+      throw CustomException.fromOrThrow(error);
     }
   }
 
@@ -60,7 +68,7 @@ export class UsersService {
       }
       return createdUser;
     } catch (error) {
-      throw CustomException.from(error);
+      throw CustomException.fromOrThrow(error);
     }
   }
 
@@ -72,7 +80,7 @@ export class UsersService {
       }
       return updatedUser;
     } catch (error) {
-      throw CustomException.from(error);
+      throw CustomException.fromOrThrow(error);
     }
   }
 
@@ -84,7 +92,7 @@ export class UsersService {
       }
       return;
     } catch (error) {
-      throw CustomException.from(error);
+      throw CustomException.fromOrThrow(error);
     }
   }
 }

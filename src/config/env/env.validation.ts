@@ -50,6 +50,18 @@ class EnvironmentVariables {
   JWT_EXPIRATION_TIME!: number;
 
   @IsString()
+  JWT_REFRESH_SECRET!: string;
+
+  @IsNumber()
+  JWT_REFRESH_EXPIRATION_TIME!: number;
+
+  @IsBoolean()
+  COOKIE_SECURE!: boolean;
+
+  @IsEnum(['strict', 'lax', 'none'])
+  COOKIE_SAME_SITE!: 'strict' | 'lax' | 'none';
+
+  @IsString()
   GOOGLE_CLIENT_ID!: string;
 
   @IsString()
@@ -61,6 +73,20 @@ class EnvironmentVariables {
     protocols: ['http', 'https'],
   })
   GOOGLE_CALLBACK_URL!: string;
+
+  @IsUrl({
+    require_protocol: true,
+    require_tld: false,
+    protocols: ['http', 'https'],
+  })
+  FRONTEND_ERROR_URL!: string;
+
+  @IsUrl({
+    require_protocol: true,
+    require_tld: false,
+    protocols: ['http', 'https'],
+  })
+  FRONTEND_SUCCESS_URL!: string;
 }
 
 export function validate(config: Record<string, unknown>): EnvironmentVariables {
