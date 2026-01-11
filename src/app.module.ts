@@ -1,4 +1,5 @@
 import { AppController } from '@/app.controller';
+import { AuthModule } from '@/auth/auth.module';
 import { getEnvConfig } from '@/config/env/env.config';
 import { getLoggingConfig } from '@/config/logging/logging.config';
 import { DatabaseModule } from '@/database/database.module';
@@ -17,6 +18,7 @@ import { UsersModule } from './users/users.module';
     }),
     DatabaseModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
 })

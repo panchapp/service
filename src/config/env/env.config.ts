@@ -30,10 +30,21 @@ function envConfig() {
     // Auth
     auth: {
       jwtSecret: process.env.JWT_SECRET!,
+      // In Milliseconds
       jwtExpirationTime: Number.parseInt(process.env.JWT_EXPIRATION_TIME!, 10),
+      jwtRefreshSecret: process.env.JWT_REFRESH_SECRET!,
+      // In Milliseconds
+      jwtRefreshExpirationTime: Number.parseInt(
+        process.env.JWT_REFRESH_EXPIRATION_TIME!,
+        10,
+      ),
+      cookieSecure: process.env.COOKIE_SECURE === 'true',
+      cookieSameSite: process.env.COOKIE_SAME_SITE!,
       googleClientId: process.env.GOOGLE_CLIENT_ID!,
       googleClientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       googleCallbackUrl: process.env.GOOGLE_CALLBACK_URL!,
+      frontendErrorUrl: process.env.FRONTEND_ERROR_URL!,
+      frontendSuccessUrl: process.env.FRONTEND_SUCCESS_URL!,
     },
   };
 }

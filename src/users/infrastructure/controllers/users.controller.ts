@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from '@/auth/infrastructure/guards/jwt-auth.guard';
 import { UsersService } from '@/users/application/services/users.service';
 import { UserCreateDto } from '@/users/infrastructure/controllers/dtos/input/user-create.dto';
 import { UserFindAllDto } from '@/users/infrastructure/controllers/dtos/input/user-find-all.dto';
@@ -19,6 +20,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 
 @Controller('users')
@@ -26,6 +28,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   async getAll(@Query() queryDto: UserFindAllDto): Promise<PaginatedUserDto> {
     const valueObject = UserValueObjectMapper.toFindAllValueObject(queryDto);
     const result = await this.usersService.getAll(valueObject);
