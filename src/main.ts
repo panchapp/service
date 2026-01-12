@@ -1,6 +1,6 @@
 import { AppModule } from '@/app.module';
-import { CustomExceptionFilter } from '@/common/filters/custom-exception.filter';
-import { CustomValidationPipe } from '@/common/pipes/custom-validation.pipe';
+import { CustomExceptionFilter } from '@/core/common/filters/custom-exception.filter';
+import { CustomValidationPipe } from '@/core/common/pipes/custom-validation.pipe';
 import { VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';

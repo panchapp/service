@@ -1,4 +1,4 @@
-import { CustomException } from '@/common/exceptions/custom.exception';
+import { CustomException } from '@/core/common/exceptions/custom.exception';
 
 const enum POSTGRES_ERROR_CODE {
   UNIQUE_CONSTRAINT_VIOLATION = '23505',
