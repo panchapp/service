@@ -1,12 +1,11 @@
 import { AppController } from '@/app.controller';
-import { AuthModule } from '@/auth/auth.module';
 import { getEnvConfig } from '@/config/env/env.config';
 import { getLoggingConfig } from '@/config/logging/logging.config';
+import { CoreModule } from '@/core/core.module';
 import { DatabaseModule } from '@/database/database.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
-import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -17,8 +16,7 @@ import { UsersModule } from './users/users.module';
       useFactory: (configService: ConfigService) => getLoggingConfig(configService),
     }),
     DatabaseModule,
-    UsersModule,
-    AuthModule,
+    CoreModule,
   ],
   controllers: [AppController],
 })
