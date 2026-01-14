@@ -1,6 +1,6 @@
 import { IsUUID } from 'class-validator';
 
-export class RoleFindByAppIdDto {
+export class UserFindByIdDto {
   @IsUUID('4')
-  appId!: string;
+  userId!: string;
 }

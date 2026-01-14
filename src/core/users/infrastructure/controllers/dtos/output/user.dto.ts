@@ -1,7 +1,7 @@
 import { IsBoolean, IsDate, IsEmail, IsString, IsUUID } from 'class-validator';
 
 export class UserDto {
-  @IsUUID()
+  @IsUUID('4')
   id!: string;
 
   @IsEmail()

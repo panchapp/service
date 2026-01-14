@@ -8,6 +8,6 @@ export class PermissionUpdateDto {
   name?: string;
 
   @IsOptional()
-  @IsUUID()
+  @IsUUID('4')
   appId?: string;
 }

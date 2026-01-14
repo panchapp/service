@@ -1,0 +1,1123 @@
+{
+	"info": {
+		"_postman_id": "panchapp-service-api",
+		"name": "Panchapp Service API",
+		"description": "API collection for Panchapp Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Google OAuth",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/google",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"google"
+							]
+						}
+					}
+				},
+				{
+					"name": "Google OAuth Callback",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/google/callback",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"google",
+								"callback"
+							]
+						}
+					}
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/refresh",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					}
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users?page=1&limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "searchValue",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "isSuperAdmin",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User By Email",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/email/:email",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"email",
+								":email"
+							],
+							"variable": [
+								{
+									"key": "email",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"name\": \"John Doe\",\n  \"googleId\": \"google-id-123\",\n  \"isSuperAdmin\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"updated@example.com\",\n  \"name\": \"Jane Doe\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Authorization - Roles",
+			"item": [
+				{
+					"name": "Get All Roles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/authorization/roles?page=1&limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"roles"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "searchValue",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "appId",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Roles By App ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/authorization/roles/app/:appId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"roles",
+								"app",
+								":appId"
+							],
+							"variable": [
+								{
+									"key": "appId",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Admin Role\",\n  \"appId\": \"app-uuid-here\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/authorization/roles",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"roles"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Role Name\",\n  \"appId\": \"app-uuid-here\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/authorization/roles/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"roles",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/authorization/roles/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"roles",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Authorization - Permissions",
+			"item": [
+				{
+					"name": "Get All Permissions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/authorization/permissions?page=1&limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"permissions"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "searchValue",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "appId",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Permissions By App ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/authorization/permissions/app/:appId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"permissions",
+								"app",
+								":appId"
+							],
+							"variable": [
+								{
+									"key": "appId",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Permission",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"permission:read\",\n  \"appId\": \"app-uuid-here\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/authorization/permissions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"permissions"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Permission",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"permission:write\",\n  \"appId\": \"app-uuid-here\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/authorization/permissions/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"permissions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Permission",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/authorization/permissions/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"permissions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Authorization - User Assignments",
+			"item": [
+				{
+					"name": "Roles",
+					"item": [
+						{
+							"name": "Get User Roles",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/authorization/users/:userId/roles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"authorization",
+										"users",
+										":userId",
+										"roles"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Assign Roles to User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"roleIds\": [\n    \"role-uuid-1\",\n    \"role-uuid-2\"\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/authorization/users/:userId/roles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"authorization",
+										"users",
+										":userId",
+										"roles"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Remove Roles from User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"roleIds\": [\n    \"role-uuid-1\",\n    \"role-uuid-2\"\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/authorization/users/:userId/roles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"authorization",
+										"users",
+										":userId",
+										"roles"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Permissions",
+					"item": [
+						{
+							"name": "Get User Permissions",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/authorization/users/:userId/permissions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"authorization",
+										"users",
+										":userId",
+										"permissions"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Assign Permissions to User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"permissionIds\": [\n    \"permission-uuid-1\",\n    \"permission-uuid-2\"\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/authorization/users/:userId/permissions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"authorization",
+										"users",
+										":userId",
+										"permissions"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Remove Permissions from User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"permissionIds\": [\n    \"permission-uuid-1\",\n    \"permission-uuid-2\"\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/authorization/users/:userId/permissions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"authorization",
+										"users",
+										":userId",
+										"permissions"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Apps",
+					"item": [
+						{
+							"name": "Get User Apps",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/authorization/users/:userId/apps",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"authorization",
+										"users",
+										":userId",
+										"apps"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Assign Apps to User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"appIds\": [\n    \"app-uuid-1\",\n    \"app-uuid-2\"\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/authorization/users/:userId/apps",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"authorization",
+										"users",
+										":userId",
+										"apps"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Remove Apps from User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"appIds\": [\n    \"app-uuid-1\",\n    \"app-uuid-2\"\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/authorization/users/:userId/apps",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"authorization",
+										"users",
+										":userId",
+										"apps"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}
