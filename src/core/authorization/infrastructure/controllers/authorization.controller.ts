@@ -2,6 +2,7 @@ import { AppDto } from '@/core/apps/infrastructure/controllers/dtos/output/app.d
 import { AppDtoMapper } from '@/core/apps/infrastructure/controllers/mappers/output/app-dto.mapper';
 import { JwtAuthGuard } from '@/core/auth/infrastructure/guards/jwt-auth.guard';
 import { PermissionsService } from '@/core/authorization/application/services/permissions.service';
+import { RoleAssignmentsService } from '@/core/authorization/application/services/role-assignments.service';
 import { RolesService } from '@/core/authorization/application/services/roles.service';
 import { UserAssignmentsService } from '@/core/authorization/application/services/user-assignments.service';
 import { CoreRoles } from '@/core/authorization/domain/enums/roles.enum';
@@ -9,9 +10,12 @@ import { PermissionCreateDto } from '@/core/authorization/infrastructure/control
 import { PermissionFindAllDto } from '@/core/authorization/infrastructure/controllers/dtos/input/permission-find-all.dto';
 import { PermissionFindByAppIdDto } from '@/core/authorization/infrastructure/controllers/dtos/input/permission-find-by-app-id.dto';
 import { PermissionUpdateDto } from '@/core/authorization/infrastructure/controllers/dtos/input/permission-update.dto';
+import { RoleAssignPermissionsDto } from '@/core/authorization/infrastructure/controllers/dtos/input/role-assign-permissions.dto';
 import { RoleCreateDto } from '@/core/authorization/infrastructure/controllers/dtos/input/role-create.dto';
 import { RoleFindAllDto } from '@/core/authorization/infrastructure/controllers/dtos/input/role-find-all.dto';
 import { RoleFindByAppIdDto } from '@/core/authorization/infrastructure/controllers/dtos/input/role-find-by-app-id.dto';
+import { RoleFindByIdDto } from '@/core/authorization/infrastructure/controllers/dtos/input/role-find-by-id.dto';
+import { RoleRemovePermissionsDto } from '@/core/authorization/infrastructure/controllers/dtos/input/role-remove-permissions.dto';
 import { RoleUpdateDto } from '@/core/authorization/infrastructure/controllers/dtos/input/role-update.dto';
 import { UserAssignAppsDto } from '@/core/authorization/infrastructure/controllers/dtos/input/user-assign-apps.dto';
 import { UserAssignPermissionsDto } from '@/core/authorization/infrastructure/controllers/dtos/input/user-assign-permissions.dto';
@@ -25,6 +29,7 @@ import { PaginatedRoleDto } from '@/core/authorization/infrastructure/controller
 import { PermissionDto } from '@/core/authorization/infrastructure/controllers/dtos/output/permission.dto';
 import { RoleDto } from '@/core/authorization/infrastructure/controllers/dtos/output/role.dto';
 import { PermissionValueObjectMapper } from '@/core/authorization/infrastructure/controllers/mappers/input/permission-value-object.mapper';
+import { RoleAssignmentsValueObjectMapper } from '@/core/authorization/infrastructure/controllers/mappers/input/role-assignments-value-object.mapper';
 import { RoleValueObjectMapper } from '@/core/authorization/infrastructure/controllers/mappers/input/role-value-object.mapper';
 import { UserAssignmentsValueObjectMapper } from '@/core/authorization/infrastructure/controllers/mappers/input/user-assignments-value-object.mapper';
 import { PermissionDtoMapper } from '@/core/authorization/infrastructure/controllers/mappers/output/permission-dto.mapper';
@@ -50,6 +55,7 @@ export class AuthorizationController {
     private readonly rolesService: RolesService,
     private readonly permissionsService: PermissionsService,
     private readonly userAssignmentsService: UserAssignmentsService,
+    private readonly roleAssignmentsService: RoleAssignmentsService,
   ) {}
 
   // Roles endpoints
@@ -91,6 +97,45 @@ export class AuthorizationController {
   @Roles(CoreRoles.ADMIN, CoreRoles.MANAGER)
   async deleteRole(@Param('id') id: string): Promise<void> {
     await this.rolesService.delete(id);
+  }
+
+  // Role assignments endpoints - Permissions
+  @Get('roles/:roleId/permissions')
+  @Roles(CoreRoles.ADMIN, CoreRoles.MANAGER, CoreRoles.USER)
+  async getRolePermissions(
+    @Param() paramsDto: RoleFindByIdDto,
+  ): Promise<PermissionDto[]> {
+    const permissions = await this.roleAssignmentsService.getRolePermissions(
+      paramsDto.roleId,
+    );
+    return PermissionDtoMapper.toDtos(permissions);
+  }
+
+  @Post('roles/:roleId/permissions')
+  @Roles(CoreRoles.ADMIN, CoreRoles.MANAGER)
+  async assignRolePermissions(
+    @Param() paramsDto: RoleFindByIdDto,
+    @Body() bodyDto: RoleAssignPermissionsDto,
+  ): Promise<PermissionDto[]> {
+    const valueObject =
+      RoleAssignmentsValueObjectMapper.toAssignPermissionsValueObject(bodyDto);
+    const permissions = await this.roleAssignmentsService.assignPermissions(
+      paramsDto.roleId,
+      valueObject,
+    );
+    return PermissionDtoMapper.toDtos(permissions);
+  }
+
+  @Delete('roles/:roleId/permissions')
+  @Roles(CoreRoles.ADMIN, CoreRoles.MANAGER)
+  async removeRolePermissions(
+    @Param() paramsDto: RoleFindByIdDto,
+    @Body() bodyDto: RoleRemovePermissionsDto,
+  ): Promise<void> {
+    await this.roleAssignmentsService.removePermissions(
+      paramsDto.roleId,
+      bodyDto.permissionIds,
+    );
   }
 
   // Permissions endpoints
