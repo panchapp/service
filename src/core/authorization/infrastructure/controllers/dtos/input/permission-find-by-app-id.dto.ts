@@ -1,6 +1,6 @@
 import { IsUUID } from 'class-validator';
 
 export class PermissionFindByAppIdDto {
-  @IsUUID()
+  @IsUUID('4')
   appId!: string;
 }

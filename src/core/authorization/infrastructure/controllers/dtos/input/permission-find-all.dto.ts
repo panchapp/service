@@ -18,6 +18,6 @@ export class PermissionFindAllDto {
   searchValue?: string;
 
   @IsOptional()
-  @IsUUID()
+  @IsUUID('4')
   appId?: string;
 }

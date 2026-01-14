@@ -6,6 +6,6 @@ export class PermissionCreateDto {
   @MaxLength(255)
   name!: string;
 
-  @IsUUID()
+  @IsUUID('4')
   appId!: string;
 }
