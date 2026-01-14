@@ -1,3 +1,4 @@
+import { AppEntity } from '@/core/apps/domain/entities/app.entity';
 import { PermissionEntity } from '@/core/authorization/domain/entities/permission.entity';
 import { RoleEntity } from '@/core/authorization/domain/entities/role.entity';
 import { AssignAppsValueObject } from '@/core/authorization/domain/value-objects/assign-apps.value-object';
@@ -16,7 +17,7 @@ export interface UserAssignmentsRepository {
   removePermissions(userId: string, permissionIds: string[]): Promise<void>;
   getUserPermissions(userId: string): Promise<PermissionEntity[]>;
 
-  assignApps(userId: string, valueObject: AssignAppsValueObject): Promise<string[]>;
+  assignApps(userId: string, valueObject: AssignAppsValueObject): Promise<AppEntity[]>;
   removeApps(userId: string, appIds: string[]): Promise<void>;
-  getUserApps(userId: string): Promise<string[]>;
+  getUserApps(userId: string): Promise<AppEntity[]>;
 }

@@ -1,3 +1,5 @@
+import { AppDto } from '@/core/apps/infrastructure/controllers/dtos/output/app.dto';
+import { AppDtoMapper } from '@/core/apps/infrastructure/controllers/mappers/output/app-dto.mapper';
 import { JwtAuthGuard } from '@/core/auth/infrastructure/guards/jwt-auth.guard';
 import { PermissionsService } from '@/core/authorization/application/services/permissions.service';
 import { RolesService } from '@/core/authorization/application/services/roles.service';
@@ -210,8 +212,9 @@ export class AuthorizationController {
   // User assignments endpoints - Apps
   @Get('users/:userId/apps')
   @Roles(CoreRoles.ADMIN, CoreRoles.MANAGER, CoreRoles.USER)
-  async getUserApps(@Param() paramsDto: UserFindByIdDto): Promise<string[]> {
-    return await this.userAssignmentsService.getUserApps(paramsDto.userId);
+  async getUserApps(@Param() paramsDto: UserFindByIdDto): Promise<AppDto[]> {
+    const apps = await this.userAssignmentsService.getUserApps(paramsDto.userId);
+    return AppDtoMapper.toDtos(apps);
   }
 
   @Post('users/:userId/apps')
@@ -219,9 +222,13 @@ export class AuthorizationController {
   async assignUserApps(
     @Param() paramsDto: UserFindByIdDto,
     @Body() bodyDto: UserAssignAppsDto,
-  ): Promise<string[]> {
+  ): Promise<AppDto[]> {
     const valueObject = UserAssignmentsValueObjectMapper.toAssignAppsValueObject(bodyDto);
-    return await this.userAssignmentsService.assignApps(paramsDto.userId, valueObject);
+    const apps = await this.userAssignmentsService.assignApps(
+      paramsDto.userId,
+      valueObject,
+    );
+    return AppDtoMapper.toDtos(apps);
   }
 
   @Delete('users/:userId/apps')

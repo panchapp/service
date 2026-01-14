@@ -1,3 +1,5 @@
+import { AppEntity } from '@/core/apps/domain/entities/app.entity';
+import { AppPersistenceMapper } from '@/core/apps/infrastructure/repositories/mappers/app-persistence.mapper';
 import { PermissionEntity } from '@/core/authorization/domain/entities/permission.entity';
 import { RoleEntity } from '@/core/authorization/domain/entities/role.entity';
 import { UserAssignmentsRepository } from '@/core/authorization/domain/repositories/user-assignments.repository';
@@ -6,8 +8,10 @@ import { AssignPermissionsValueObject } from '@/core/authorization/domain/value-
 import { AssignRolesValueObject } from '@/core/authorization/domain/value-objects/assign-roles.value-object';
 import { PermissionPersistenceMapper } from '@/core/authorization/infrastructure/repositories/mappers/permission-persistence.mapper';
 import { RolePersistenceMapper } from '@/core/authorization/infrastructure/repositories/mappers/role-persistence.mapper';
+import { AppDbModel } from '@/database/models/app-db.model';
 import { PermissionDbModel } from '@/database/models/permission-db.model';
 import { RoleDbModel } from '@/database/models/role-db.model';
+import { APPS_TABLE_TOKEN } from '@/database/tokens/apps.token';
 import { KNEX_DATABASE_TOKEN } from '@/database/tokens/database.token';
 import { PERMISSIONS_TABLE_TOKEN } from '@/database/tokens/permissions.token';
 import { ROLES_TABLE_TOKEN } from '@/database/tokens/roles.token';
@@ -128,7 +132,7 @@ export class KnexUserAssignmentsRepository implements UserAssignmentsRepository 
   async assignApps(
     userId: string,
     valueObject: AssignAppsValueObject,
-  ): Promise<string[]> {
+  ): Promise<AppEntity[]> {
     try {
       const insertData = valueObject.appIds.map((appId) => ({
         user_id: userId,
@@ -157,13 +161,18 @@ export class KnexUserAssignmentsRepository implements UserAssignmentsRepository 
     }
   }
 
-  async getUserApps(userId: string): Promise<string[]> {
+  async getUserApps(userId: string): Promise<AppEntity[]> {
     try {
-      const dbApps = await this.db(USER_APPS_TABLE_TOKEN)
-        .where({ user_id: userId })
-        .select('app_id');
+      const dbApps: AppDbModel[] = await this.db<AppDbModel>(APPS_TABLE_TOKEN)
+        .join(
+          USER_APPS_TABLE_TOKEN,
+          `${APPS_TABLE_TOKEN}.id`,
+          `${USER_APPS_TABLE_TOKEN}.app_id`,
+        )
+        .where(`${USER_APPS_TABLE_TOKEN}.user_id`, userId)
+        .select(`${APPS_TABLE_TOKEN}.*`);
 
-      return dbApps.map((row: { app_id: string }) => row.app_id);
+      return dbApps.map((app) => AppPersistenceMapper.toEntity(app));
     } catch (error) {
       throw handlePgDatabaseError(error, 'Error getting user apps');
     }
