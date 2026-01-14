@@ -1,0 +1,1 @@
+export const APPS_REPOSITORY_TOKEN = Symbol('APPS_REPOSITORY_TOKEN');

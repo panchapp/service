@@ -1,3 +1,4 @@
+import { AppEntity } from '@/core/apps/domain/entities/app.entity';
 import { PermissionEntity } from '@/core/authorization/domain/entities/permission.entity';
 import { RoleEntity } from '@/core/authorization/domain/entities/role.entity';
 import { UserAssignmentsRepository } from '@/core/authorization/domain/repositories/user-assignments.repository';
@@ -72,7 +73,7 @@ export class UserAssignmentsService {
   async assignApps(
     userId: string,
     valueObject: AssignAppsValueObject,
-  ): Promise<string[]> {
+  ): Promise<AppEntity[]> {
     try {
       return await this.userAssignmentsRepository.assignApps(userId, valueObject);
     } catch (error) {
@@ -88,7 +89,7 @@ export class UserAssignmentsService {
     }
   }
 
-  async getUserApps(userId: string): Promise<string[]> {
+  async getUserApps(userId: string): Promise<AppEntity[]> {
     try {
       return await this.userAssignmentsRepository.getUserApps(userId);
     } catch (error) {
