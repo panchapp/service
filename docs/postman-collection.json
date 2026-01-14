@@ -716,6 +716,129 @@
 							]
 						}
 					}
+				},
+				{
+					"name": "Get Role Permissions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/authorization/roles/:roleId/permissions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"roles",
+								":roleId",
+								"permissions"
+							],
+							"variable": [
+								{
+									"key": "roleId",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Assign Permissions to Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"permissionIds\": [\n    \"permission-uuid-1\",\n    \"permission-uuid-2\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/authorization/roles/:roleId/permissions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"roles",
+								":roleId",
+								"permissions"
+							],
+							"variable": [
+								{
+									"key": "roleId",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Remove Permissions from Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"permissionIds\": [\n    \"permission-uuid-1\",\n    \"permission-uuid-2\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/authorization/roles/:roleId/permissions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authorization",
+								"roles",
+								":roleId",
+								"permissions"
+							],
+							"variable": [
+								{
+									"key": "roleId",
+									"value": ""
+								}
+							]
+						}
+					}
 				}
 			]
 		},
